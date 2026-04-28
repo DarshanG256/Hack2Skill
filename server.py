@@ -71,15 +71,28 @@ def upload_csv():
         file = request.files.get("file")
         if not file:
             return jsonify({"error": "No file provided"}), 400
+
         df = pd.read_csv(file)
+        df.columns = [str(c).strip() for c in df.columns]
+        normalized_columns = {str(c).strip().lower(): c for c in df.columns}
+
         required = ["age","gender","race","marital_status","disability_status",
                     "income","credit_score","loan_amount","debt_to_income",
                     "years_employed","num_dependents","education_years",
                     "employment_type","loan_purpose","collateral"]
-        missing = [c for c in required if c not in df.columns]
+
+        mapped = {}
+        for col in required:
+            if col in normalized_columns:
+                mapped[col] = normalized_columns[col]
+        missing = [c for c in required if c not in mapped]
         if missing:
             return jsonify({"error": f"Missing columns: {', '.join(missing)}"}), 400
-        df = df[required].dropna().reset_index(drop=True)
+
+        df = df.rename(columns={mapped[col]: col for col in mapped})
+        df = df[required].replace(r'^\s*$', pd.NA, regex=True)
+        df = df.dropna(subset=required).reset_index(drop=True)
+
         _state["dataset_df"] = df
         _state["data_source"] = file.filename
         return jsonify({"message": f"Loaded {len(df)} records", "rows": len(df), "cols": len(df.columns)})

@@ -191,8 +191,9 @@ async function loadDatasetPreview() {
 
 function renderPreviewTable(rows) {
     if(!rows || !rows.length) return;
-    const thead = document.querySelector('#preview-table <thead> tr');
-    const tbody = document.querySelector('#preview-table <tbody>');
+    const thead = document.querySelector('#preview-table thead tr');
+    const tbody = document.querySelector('#preview-table tbody');
+    if(!thead || !tbody) return;
     thead.innerHTML = ''; tbody.innerHTML = '';
     
     const cols = Object.keys(rows[0]);

@@ -200,7 +200,7 @@ class BiasAuditorAgent:
             if group == ref_group:
                 continue
             grp_data = df[df[attribute] == group]
-            if len(grp_data) < 3:
+            if len(grp_data) == 0:
                 continue
 
             grp_rate = float(grp_data["approved"].mean())
@@ -282,7 +282,8 @@ class BiasAuditorAgent:
     def _compute_audit_score(self, metrics: List[FairnessMetrics]) -> float:
         """Compute an overall fairness score (100 = perfectly fair)."""
         if not metrics:
-            return 100.0
+            # When there are no comparable protected groups, avoid returning an unrealistic perfect score.
+            return 70.0
         penalties = []
         for m in metrics:
             dir_penalty = max(0, (FAIR_DIR_THRESHOLD - m.disparate_impact_ratio) * 100)
