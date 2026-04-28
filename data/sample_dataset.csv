@@ -1,0 +1,51 @@
+age,gender,race,marital_status,disability_status,income,credit_score,loan_amount,debt_to_income,years_employed,num_dependents,education_years,employment_type,loan_purpose,collateral
+45,Male,White,Married,No,120000,740,250000,0.22,18,2,18,Full-time,Home Purchase,Property
+32,Female,Black,Single,No,52000,610,95000,0.38,4,1,16,Full-time,Home Purchase,None
+29,Male,Hispanic,Single,No,48000,590,80000,0.41,2,0,14,Part-time,Personal,None
+51,Female,White,Married,No,145000,790,320000,0.18,24,3,20,Full-time,Home Purchase,Property
+38,Male,Asian,Married,No,98000,720,180000,0.25,10,1,18,Full-time,Business,Investments
+22,Female,Black,Single,Yes,28000,560,45000,0.49,1,0,12,Part-time,Auto Loan,Vehicle
+67,Male,White,Divorced,No,88000,680,140000,0.30,32,0,16,Full-time,Personal,None
+34,Female,Native American,Married,No,41000,580,72000,0.44,6,2,14,Full-time,Home Purchase,None
+43,Male,Hispanic,Married,No,76000,650,155000,0.28,14,2,16,Full-time,Home Purchase,Property
+25,Female,White,Single,No,64000,700,110000,0.22,3,0,18,Full-time,Education,None
+58,Male,Black,Married,No,61000,620,130000,0.35,20,3,14,Full-time,Home Purchase,Vehicle
+36,Female,Asian,Married,No,105000,755,200000,0.20,8,1,20,Full-time,Business,Investments
+29,Male,White,Single,No,55000,670,90000,0.32,5,0,16,Full-time,Auto Loan,Vehicle
+47,Female,Black,Divorced,Yes,38000,575,65000,0.45,12,2,12,Part-time,Personal,None
+31,Male,Hispanic,Single,No,44000,600,78000,0.40,3,0,14,Full-time,Auto Loan,None
+62,Female,White,Married,No,135000,800,280000,0.16,35,1,22,Full-time,Home Purchase,Property
+26,Male,Black,Single,No,32000,555,50000,0.48,1,1,12,Unemployed,Personal,None
+39,Female,White,Married,No,95000,730,185000,0.24,12,2,18,Full-time,Home Purchase,Property
+55,Male,Native American,Married,Yes,46000,595,88000,0.42,22,3,12,Full-time,Home Purchase,None
+41,Female,Asian,Single,No,88000,710,165000,0.26,10,0,20,Full-time,Business,None
+28,Male,Hispanic,Single,No,37000,570,62000,0.46,2,0,14,Part-time,Auto Loan,Vehicle
+50,Female,White,Divorced,No,78000,695,148000,0.29,18,0,16,Full-time,Personal,None
+33,Male,Black,Married,No,58000,635,108000,0.33,6,2,16,Full-time,Home Purchase,None
+44,Female,Hispanic,Married,No,66000,660,132000,0.30,14,3,14,Full-time,Home Purchase,Property
+23,Male,White,Single,No,42000,640,75000,0.34,1,0,16,Full-time,Education,None
+37,Female,Black,Single,Yes,34000,565,58000,0.47,8,1,12,Part-time,Auto Loan,None
+60,Male,Asian,Married,No,118000,770,245000,0.19,28,2,20,Full-time,Home Purchase,Property
+35,Female,White,Married,No,82000,715,162000,0.27,9,1,18,Full-time,Home Purchase,None
+48,Male,Black,Married,No,55000,605,102000,0.37,16,3,14,Full-time,Home Purchase,None
+27,Female,Hispanic,Single,No,38000,580,66000,0.43,2,0,14,Part-time,Personal,None
+53,Male,White,Married,No,155000,810,350000,0.14,26,2,22,Full-time,Home Purchase,Property
+30,Female,Black,Single,No,46000,600,82000,0.38,4,0,16,Full-time,Auto Loan,Vehicle
+42,Male,Hispanic,Married,No,72000,645,145000,0.29,13,2,16,Full-time,Home Purchase,None
+56,Female,White,Married,No,122000,760,255000,0.21,24,1,20,Full-time,Home Purchase,Property
+24,Male,Black,Single,No,30000,545,48000,0.50,1,0,12,Unemployed,Personal,None
+38,Female,Asian,Married,No,110000,748,215000,0.22,9,2,20,Full-time,Business,Investments
+49,Male,White,Divorced,No,90000,700,178000,0.27,20,0,18,Full-time,Personal,None
+31,Female,Native American,Single,Yes,32000,558,55000,0.48,3,1,12,Part-time,Auto Loan,None
+45,Male,Hispanic,Married,No,68000,648,138000,0.31,14,3,14,Full-time,Home Purchase,Vehicle
+26,Female,White,Single,No,58000,685,102000,0.26,3,0,18,Full-time,Education,None
+57,Male,Black,Married,Yes,52000,598,98000,0.38,22,2,12,Full-time,Home Purchase,None
+34,Female,White,Married,No,88000,720,172000,0.25,8,1,18,Full-time,Home Purchase,Property
+29,Male,Asian,Single,No,72000,695,135000,0.28,4,0,18,Full-time,Business,None
+52,Female,Hispanic,Married,No,58000,632,115000,0.34,18,3,14,Full-time,Home Purchase,None
+36,Male,White,Single,No,68000,688,128000,0.30,8,0,16,Full-time,Auto Loan,Vehicle
+41,Female,Black,Divorced,No,45000,588,82000,0.42,12,1,14,Part-time,Personal,None
+63,Male,White,Married,No,142000,795,295000,0.17,35,2,22,Full-time,Home Purchase,Property
+28,Female,Hispanic,Single,No,36000,568,60000,0.46,2,0,12,Part-time,Auto Loan,None
+47,Male,Black,Married,No,62000,628,122000,0.33,16,2,14,Full-time,Home Purchase,None
+33,Female,White,Married,No,94000,735,188000,0.23,9,1,18,Full-time,Home Purchase,Property

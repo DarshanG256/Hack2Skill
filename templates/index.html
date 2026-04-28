@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Applicant | AI Fairness Auditor</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⚖️</div>
+            <div class="brand-text">
+                <h2>Shadow Applicant</h2>
+                <p>ENTERPRISE AI AUDITOR</p>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-header">NAVIGATION</div>
+            <button class="nav-btn active" data-target="page-dashboard">
+                <i class="ph ph-squares-four"></i> Dashboard
+            </button>
+            <button class="nav-btn" data-target="page-upload">
+                <i class="ph ph-upload-simple"></i> Upload Data
+            </button>
+            <button class="nav-btn" data-target="page-audit">
+                <i class="ph ph-microscope"></i> Run Audit
+            </button>
+            <button class="nav-btn" data-target="page-analytics">
+                <i class="ph ph-chart-line-up"></i> Analytics
+            </button>
+            <button class="nav-btn" data-target="page-reports">
+                <i class="ph ph-file-text"></i> Reports
+            </button>
+        </nav>
+
+        <div class="status-panel">
+            <div class="nav-header">SYSTEM STATUS</div>
+            <div class="status-item" id="status-dataset">
+                <div class="dot red"></div> <span>Dataset</span>
+            </div>
+            <div class="status-item" id="status-batch">
+                <div class="dot red"></div> <span>Batch Audit</span>
+            </div>
+            <div class="status-item" id="status-cf">
+                <div class="dot red"></div> <span>CF Audit</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        
+        <!-- PAGE: Dashboard -->
+        <section id="page-dashboard" class="page active">
+            <div class="hero-banner">
+                <div class="hero-icon">⚖️</div>
+                <div class="hero-text">
+                    <h1>AI systems are making decisions that affect lives.</h1>
+                    <p>This platform ensures those decisions are fair.</p>
+                </div>
+            </div>
+
+            <h2>Platform Overview</h2>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value" id="kpi-total-profiles">—</div>
+                    <div class="kpi-label">Profiles Audited</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value" id="kpi-approval-rate">—</div>
+                    <div class="kpi-label">Overall Approval Rate</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value" id="kpi-findings">—</div>
+                    <div class="kpi-label">Critical Findings</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value highlight" id="kpi-score">—</div>
+                    <div class="kpi-label">Fairness Score</div>
+                </div>
+            </div>
+
+            <div class="dashboard-panels">
+                <div class="panel">
+                    <h3>Overall Fairness Score</h3>
+                    <div class="gauge-container">
+                        <canvas id="gaugeChart"></canvas>
+                        <div class="gauge-value" id="gauge-text">No Data</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>Agent Pipeline Status</h3>
+                    <div class="agent-list">
+                        <div class="agent-item" id="agent-1">
+                            <span class="agent-id">Agent 1</span>
+                            <span class="agent-name">Profile Generator</span>
+                            <span class="agent-badge idle">Idle</span>
+                        </div>
+                        <div class="agent-item" id="agent-2">
+                            <span class="agent-id">Agent 2</span>
+                            <span class="agent-name">Counterfactual Generator</span>
+                            <span class="agent-badge idle">Idle</span>
+                        </div>
+                        <div class="agent-item" id="agent-3">
+                            <span class="agent-id">Agent 3</span>
+                            <span class="agent-name">Decision Simulator</span>
+                            <span class="agent-badge idle">Idle</span>
+                        </div>
+                        <div class="agent-item" id="agent-4">
+                            <span class="agent-id">Agent 4</span>
+                            <span class="agent-name">Bias Auditor</span>
+                            <span class="agent-badge idle">Idle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" id="dashboard-findings" style="display: none; margin-top: 20px;">
+                <h3 class="danger-text">Critical Findings</h3>
+                <div id="findings-list"></div>
+            </div>
+        </section>
+
+        <!-- PAGE: Upload Data -->
+        <section id="page-upload" class="page">
+            <h2>Upload Applicant Data</h2>
+            <p class="subtitle">Upload a CSV dataset or generate a sample dataset to begin auditing.</p>
+
+            <div class="upload-split">
+                <div class="panel upload-zone" id="drop-zone">
+                    <i class="ph ph-upload-simple" style="font-size: 48px; color: var(--primary);"></i>
+                    <h3>Drag & Drop CSV</h3>
+                    <p>or click to browse files</p>
+                    <input type="file" id="csv-file" accept=".csv" style="display: none;">
+                    <button class="btn primary" onclick="document.getElementById('csv-file').click()">Select File</button>
+                </div>
+
+                <div class="panel">
+                    <h3>Generate Sample Dataset</h3>
+                    <p>Use the built-in dataset with embedded bias patterns to test the auditor.</p>
+                    <div class="slider-group">
+                        <label>Number of records: <span id="sample-count-val">100</span></label>
+                        <input type="range" id="sample-count" min="50" max="500" step="50" value="100">
+                    </div>
+                    <button class="btn primary full-width" id="btn-generate-sample">
+                        <i class="ph ph-arrows-clockwise"></i> Generate Synthetic Data
+                    </button>
+                </div>
+            </div>
+
+            <div id="dataset-preview" class="panel mt-4" style="display: none;">
+                <div class="flex-between">
+                    <h3>Dataset Preview</h3>
+                    <div class="badge success" id="dataset-meta">Loaded</div>
+                </div>
+                <div class="table-responsive mt-3">
+                    <table class="data-table" id="preview-table">
+                        <thead><tr></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: Run Audit -->
+        <section id="page-audit" class="page">
+            <h2>Run Fairness Audit</h2>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab-single">Single Applicant</button>
+                <button class="tab-btn" data-tab="tab-batch">Batch Dataset</button>
+            </div>
+
+            <!-- Single Tab -->
+            <div class="tab-content active" id="tab-single">
+                <div class="panel">
+                    <h3>Enter Applicant Profile</h3>
+                    <p class="text-muted mb-4">Financial features remain constant across counterfactuals while protected attributes vary.</p>
+                    
+                    <form id="single-audit-form">
+                        <div class="form-grid">
+                            <!-- Demographics -->
+                            <div class="form-section">
+                                <h4>Demographics</h4>
+                                <div class="input-group">
+                                    <label>Age</label>
+                                    <input type="number" name="age" value="35">
+                                </div>
+                                <div class="input-group">
+                                    <label>Gender</label>
+                                    <select name="gender" id="sel-gender"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Race/Ethnicity</label>
+                                    <select name="race" id="sel-race"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Marital Status</label>
+                                    <select name="marital_status" id="sel-marital"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Disability Status</label>
+                                    <select name="disability_status" id="sel-disability"></select>
+                                </div>
+                            </div>
+                            
+                            <!-- Financials -->
+                            <div class="form-section">
+                                <h4>Financials</h4>
+                                <div class="input-group">
+                                    <label>Annual Income ($)</label>
+                                    <input type="number" name="income" value="75000">
+                                </div>
+                                <div class="input-group">
+                                    <label>Credit Score</label>
+                                    <input type="number" name="credit_score" value="680">
+                                </div>
+                                <div class="input-group">
+                                    <label>Loan Amount ($)</label>
+                                    <input type="number" name="loan_amount" value="150000">
+                                </div>
+                                <div class="input-group">
+                                    <label>Debt-to-Income (0-1)</label>
+                                    <input type="number" step="0.01" name="debt_to_income" value="0.25">
+                                </div>
+                                <div class="input-group">
+                                    <label>Years Employed</label>
+                                    <input type="number" name="years_employed" value="5">
+                                </div>
+                            </div>
+
+                            <!-- Context -->
+                            <div class="form-section">
+                                <h4>Loan Context</h4>
+                                <div class="input-group">
+                                    <label>Employment Type</label>
+                                    <select name="employment_type" id="sel-emp"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Loan Purpose</label>
+                                    <select name="loan_purpose" id="sel-purpose"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Collateral</label>
+                                    <select name="collateral" id="sel-collat"></select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Education (Years)</label>
+                                    <input type="number" name="education_years" value="16">
+                                </div>
+                                <div class="input-group">
+                                    <label>Dependents</label>
+                                    <input type="number" name="num_dependents" value="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        
+                        <div class="flex-between mt-3 align-center">
+                            <div>
+                                <label class="mb-2"><strong>Counterfactual Attributes to Vary</strong></label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" name="cf_attrs" value="gender" checked> Gender</label>
+                                    <label><input type="checkbox" name="cf_attrs" value="race" checked> Race</label>
+                                    <label><input type="checkbox" name="cf_attrs" value="age_group"> Age Group</label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn primary large" id="btn-run-single">
+                                <i class="ph ph-rocket"></i> Run Counterfactual Audit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Single Results -->
+                <div id="single-results" style="display: none; margin-top: 20px;">
+                    <h3>Audit Results</h3>
+                    <div class="kpi-grid">
+                        <div class="kpi-card" id="sr-decision-card">
+                            <div class="kpi-value" id="sr-decision">...</div>
+                            <div class="kpi-label">Original Decision</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-value text-primary" id="sr-score">...</div>
+                            <div class="kpi-label">Approval Score</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-value" id="sr-risk">...</div>
+                            <div class="kpi-label">Risk Tier</div>
+                        </div>
+                        <div class="kpi-card" id="sr-reversal-card">
+                            <div class="kpi-value" id="sr-reversal">...</div>
+                            <div class="kpi-label">Decision Reversal Detected</div>
+                        </div>
+                    </div>
+
+                    <div class="panel mt-4">
+                        <h4>Counterfactual Variants</h4>
+                        <div class="table-responsive">
+                            <table class="data-table" id="variants-table">
+                                <thead>
+                                    <tr>
+                                        <th>Profile ID</th>
+                                        <th>Score</th>
+                                        <th>Decision</th>
+                                        <th>Score Δ</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Batch Tab -->
+            <div class="tab-content" id="tab-batch">
+                <div class="panel center-text">
+                    <i class="ph ph-files" style="font-size: 48px; color: var(--text-muted); margin-bottom: 16px;"></i>
+                    <h3 id="batch-status-text">No dataset loaded</h3>
+                    <p class="text-muted mb-4">Run a comprehensive fairness audit across all records in the loaded dataset.</p>
+                    <button class="btn primary large" id="btn-run-batch" disabled>
+                        <i class="ph ph-play"></i> Run Full Batch Audit
+                    </button>
+                </div>
+
+                <!-- Loading overlay -->
+                <div id="batch-loader" style="display: none; text-align: center; margin-top: 30px;">
+                    <div class="spinner"></div>
+                    <p class="mt-3">Running multi-agent pipeline...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: Analytics -->
+        <section id="page-analytics" class="page">
+            <h2>Analytics Dashboard</h2>
+            
+            <div id="analytics-empty" class="panel center-text">
+                <i class="ph ph-chart-bar" style="font-size: 48px; color: var(--text-muted); margin-bottom: 16px;"></i>
+                <h3>No Analytics Available</h3>
+                <p>Run a Batch Audit to generate visualizations.</p>
+            </div>
+
+            <div id="analytics-content" style="display: none;">
+                <div class="dashboard-panels">
+                    <div class="panel flex-2">
+                        <h3>Approval Rates by Group</h3>
+                        <div class="tabs small-tabs mb-3" id="chart-tabs">
+                            <button class="tab-btn active" data-target="chart-race">Race</button>
+                            <button class="tab-btn" data-target="chart-gender">Gender</button>
+                        </div>
+                        <canvas id="approvalChart" height="250"></canvas>
+                    </div>
+                    <div class="panel">
+                        <h3>Fairness Metrics Summary</h3>
+                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                            <table class="data-table compact" id="metrics-table">
+                                <thead>
+                                    <tr>
+                                        <th>Group</th>
+                                        <th>DIR</th>
+                                        <th>Severity</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE: Reports -->
+        <section id="page-reports" class="page">
+            <h2>Compliance Report</h2>
+            
+            <div id="reports-empty" class="panel center-text">
+                <i class="ph ph-file-pdf" style="font-size: 48px; color: var(--text-muted); margin-bottom: 16px;"></i>
+                <h3>No Report Available</h3>
+                <p>Run a Batch Audit to generate a compliance report.</p>
+            </div>
+
+            <div id="reports-content" style="display: none;">
+                <div class="panel mb-4">
+                    <div class="flex-between align-center">
+                        <div>
+                            <h3>Executive Summary Report</h3>
+                            <p class="text-muted">Generated by Shadow Applicant Audit Engine</p>
+                        </div>
+                        <button class="btn primary" id="btn-download-report">
+                            <i class="ph ph-download-simple"></i> Download Full Report (.txt)
+                        </button>
+                    </div>
+                    <hr>
+                    <div class="report-preview" id="report-preview-text">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
